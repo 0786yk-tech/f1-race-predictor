@@ -51,7 +51,7 @@ Three normalized tables:
 A scheduled n8n workflow keeps the pipeline running without manual intervention:
 
 1. **Schedule Trigger** - fires weekly (Mondays, 9am)
-2. **HTTP Request** - fetches the most recent completed race from the jolpica API using the `/current/last/` endpoint
+2. **HTTP Request** - fetches the most recent completed race from the jolpica API using the `/2025/last/` endpoint
 3. **Code node** (JavaScript) - extracts driver, constructor, grid and finish position from the nested JSON
 4. **Convert to File** - outputs as CSV
 
@@ -74,7 +74,7 @@ A scheduled n8n workflow keeps the pipeline running without manual intervention:
 - n8n runs in a Docker container and cannot reach the local MySQL instance without additional network configuration, so output is written to file rather than inserted directly into the database.
 - The n8n Python runner is unavailable in the standard Docker image; the transform node uses JavaScript instead.
 - The schedule only fires while the container is running. Production deployment would require hosting n8n on a persistent server.
-- The pipeline collects current-season (2026) data while the model is trained on 2025. Reconciling the two - retraining across multiple seasons and handling constructor renames - is the next development step.
+- The endpoint is pinned to the 2025 season for consistency with the trained model, so the workflow re-fetches the final race rather than collecting new data. Live-season collection is handled as a separate project.
 
 ## Setup
 
